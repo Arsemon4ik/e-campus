@@ -14,6 +14,22 @@ class ArticleForm(ModelForm):
             'file': forms.FileInput(),
         }
 
+from django_bpmn.widget import BPMNWidget
+
+from .models import BPMN
+
+
+class BPMNForm(forms.Form):
+   diagram = forms.CharField(widget=BPMNWidget)
+
+
+class BPMNModelForm(forms.ModelForm):
+   diagram = forms.CharField(widget=BPMNWidget)
+
+   class Meta:
+       model = BPMN
+       exclude = ()
+
 
 # class TaskForm(ModelForm):
 #     class Meta:

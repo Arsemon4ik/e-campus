@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from .forms import ArticleForm
 from .models import Article
+from django.db.models import Count, Case, When, IntegerField, Sum
 import json
 
 
@@ -22,12 +23,6 @@ def main_page(request):
 def articles_by_user_page(request):
     """ Dashboard function returns a template with subjects and tasks from DB based on user """
     user_articles = Article.objects.filter(user=request.user)
-    from django.db.models import Count, Case, When, IntegerField, Sum
-
-    # count_types = user_articles.order_by('type').values('type').annotate(Count('type'))
-    # print(count_types)
-    # result_arr = [_['type__count'] for _ in count_types]
-    # print(result_arr)
     all_types = [choice[0] for choice in Article.type.field.choices]
     print(all_types)
 
@@ -45,8 +40,6 @@ def articles_by_user_page(request):
     for type in all_types:
         print(f"Тип: {type}, Кількість робіт: {result_dict.get(type, 0)}")
         result_arr.append(result_dict.get(type, 0))
-
-
 
     form = ArticleForm()
     if request.method == "POST":
@@ -76,9 +69,8 @@ def edit_article_page(request, article_id):
             form.save()
             return redirect('articles_by_user')
         else:
-            messages.error(request, 'Виникла помилка під час редагування, спробуйте ще раз')
+            messages.error(request, f'Виникла помилка {form.errors} під час редагування, спробуйте ще раз')
     return render(request, 'campus_app/edit_article.html', {'form': form, 'article': article})
-
 
 @login_required()
 def delete_article(request, article_id):

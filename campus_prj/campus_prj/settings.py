@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'authentication',
-    'campus_app'
+    'campus_app',
+
+    'django_filters',
+    'django_bpmn'
 ]
 
 AUTH_USER_MODEL = 'authentication.User'

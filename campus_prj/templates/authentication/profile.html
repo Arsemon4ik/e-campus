@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Головна{% endblock title %}
+{% block title %}Профіль{% endblock title %}
 
 {% block content %}
 
     {% include 'navbar.html' %}
-    <div class="px-5 w-100">
-        <div class="w-100">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2 class="py-3">Останні наукові роботи</h2>
+    <div class="mx-5 w-75">
+        <div class="d-flex align-items-center">
+            <h2 class="py-3 mr-4">Профіль {{ user.username }}</h2>
+            <img src="{{ user.photo.url }}" alt="Аватар" style="height: 50px; border-radius: 50%">
+        </div>
+        <div class="form-group">
+            <strong>Ел. Пошта: </strong>
+            {{ user.email }}
+        </div>
+        {% if user.bio %}
+            <div class="form-group">
+                <strong>Про себе</strong>
+                <p>{{ user.bio }}</p>
             </div>
+        {% endif %}
+        <div class="mt-3">
             {% if articles %}
+                <h2 class="mt-3">Роботи автора</h2>
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Автор</th>
                         <th scope="col">Назва роботи</th>
                         <th scope="col">Тип</th>
                         <th scope="col">Опис</th>
@@ -28,11 +39,10 @@
                         {% for article in articles %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td><img src="{{ article.user.photo.url }}" alt="Аватар" style="height: 24px; border-radius: 50%"><br><a href="{% url 'profile' article.user.id %}">{{ article.user.username }}</a></td>
-                                <td>{{ article.name  }}</td>
-                                <td>{{ article.get_type_display  }}</td>
+                                <td>{{ article.name }}</td>
+                                <td>{{ article.get_type_display }}</td>
                                 <td>{{ article.description }}</td>
-                                <td style="width: 200px">{{ article.created_at|timesince }} тому</td>
+                                <td style="width: 200px">{{ article.created_at }}</td>
                                 <td><a target="_blank" href="{{ article.file.url }}">Завантажити</a></td>
                             </tr>
                         {% endfor %}
@@ -42,22 +52,7 @@
             {% else %}
                 <h2 class="text-center py-4">Тут ще не має жодної роботи!</h2>
             {% endif %}
-
         </div>
-
     </div>
 
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
-            <strong>Message: </strong> {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endfor %}
-
-{% endblock %}
-
-{% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}

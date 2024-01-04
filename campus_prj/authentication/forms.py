@@ -17,3 +17,25 @@ class UserForm(UserCreationForm):
         super(UserForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control form-control-lg'
+
+
+class UserProfileForm(forms.ModelForm):
+    # password1 = forms.CharField(required=False, widget=forms.PasswordInput)
+    # password2 = forms.CharField(required=False, widget=forms.PasswordInput)
+    password = forms.CharField(required=False, widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['photo', 'bio', 'password']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control form-control-lg'
+
+    # def save(self, commit=True):
+    #     user = super(UserProfileForm, self).save(commit=False)
+    #     user.(self.request.user.password)
+    #     if commit:
+    #         user.save()
+    #     return user

@@ -143,13 +143,16 @@ class User(AbstractUser):
 
     def update(self,
                password=None,
-               username=None):
+               username=None,
+               bio=None):
         """
         Updates user profile in the database with the specified parameters.\n
         :param password: password of a user
         :type password: str
         :param username: username of a user
         :type username: str
+        :param bio: username of a user
+        :type bio: str
         :return: None
         """
         user_to_update = User.objects.filter(email=self.email).first()
@@ -158,6 +161,8 @@ class User(AbstractUser):
             user_to_update.set_password(password)
         if username is not None:
             user_to_update.username = username
+        if bio is not None:
+            user_to_update.bio = bio
         user_to_update.save()
 
     @staticmethod

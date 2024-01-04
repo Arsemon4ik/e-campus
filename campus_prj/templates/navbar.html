@@ -10,6 +10,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'main' %}">Головна</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'search_users' %}">Пошук користувачів</a>
+            </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'articles_by_user' %}">Мої роботи</a>
@@ -22,6 +25,9 @@
                 <span class="nav-link text-muted" href="#">Привіт, <span
                         class="font-weight-bold">{{ request.user.username }}</span>
                 <img  src="{{ request.user.photo.url }}" alt="Аватар" style="height: 24px; border-radius: 50%"></span>
+                </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-muted" href="{% url 'my_profile' %}">Профіль</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-muted" href="{% url 'logout' %}">Вийти</a>

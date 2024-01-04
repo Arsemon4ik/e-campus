@@ -1,33 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Schemas{% endblock title %}
+{% block title %}Профіль{% endblock title %}
 
 {% block content %}
 
     {% include 'navbar.html' %}
     <div class="mx-5 w-75">
-       <h2 class="py-3">Редагувати завдання "{{ task_name }}"</h2>
-        <form class="mt-4 w-50" action="" method="post">
+        <div class="d-flex align-items-center">
+            <h2 class="py-3 mr-4">Мій профіль</h2>
+            <img src="{{ request.user.photo.url }}" alt="Аватар" style="height: 50px; border-radius: 50%">
+        </div>
+
+        <form class="mt-4 w-75" action="" method="post" enctype="multipart/form-data" style="font-size: 20px">
             {% csrf_token %}
             <div class="form-group">
-                <label for="name">Назва</label>
-                {{form.name}}
-            </div>
-             <div class="form-group">
-                <label for="subject">Предмет</label>
-                {{form.subject}}
+                <label for="score">Ел. Пошта: </label>
+                {{ request.user.email }}
             </div>
             <div class="form-group">
-                <label for="score">Кіл. балів</label>
-                {{form.score}}
-            </div>
-            <div class="form-group">
-                <label for="deadline">Дедлайн</label>
-                {{form.deadline}}
-            </div>
-             <div class="form-group">
-                <label for="deadline">Статус</label>
-                {{form.status}}
+                <label for="deadline">Про себе</label>
+                {{ form.bio }}
             </div>
             <div class="form-group d-flex flex-row-reverse">
                 <button type="submit" class="btn btn-success rounded py-2 px-2 h-25 my-3 border-0">Зберегти</button>
