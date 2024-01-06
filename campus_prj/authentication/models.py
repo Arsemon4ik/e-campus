@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 import sys
+from django.core.validators import MinValueValidator, FileExtensionValidator
+from django.core.exceptions import ValidationError
 
 
 class CustomUserManager(BaseUserManager):
@@ -8,6 +10,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+
     def create_user(self, email, password, **extra_fields):
         """
         Create and save a User with the given email and password.
@@ -45,7 +48,6 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     username = models.CharField(
         max_length=40,
-        blank=True,
         help_text="Required. 40 characters or fewer. Letters, digits and @/./+/-/_ only.",
         error_messages={
             "unique": "A user with that username already exists.",
@@ -56,7 +58,21 @@ class User(AbstractUser):
         ('teacher', 'Викладач'),
         ('student', 'Студент'),
     )
-    photo = models.ImageField(upload_to='avatars', blank=True)
+
+    def file_size_validator(image: models.ImageField):
+        """
+        Function that checks whether file size not exceed the limit
+        :param image: django.db.models.ImageField, user's image
+        :return: None, ValidationError if image size exceeds the limit
+        """
+        file_size = image.file.size
+        megabyte_limit = 2.5
+        if file_size > megabyte_limit * 1024 * 1024:
+            raise ValidationError(f"File size should be {megabyte_limit} Mb")
+
+    photo = models.ImageField(upload_to='avatars', validators=[
+        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+        file_size_validator])
     campus_type = models.CharField(max_length=8, choices=CAMPUS_TYPE_CHOICES, default='student')
     bio = models.TextField(blank=True, null=True)
 
@@ -79,11 +95,6 @@ class User(AbstractUser):
         :return: class, id
         """
         return f"{User.__name__}(id={self.id})"
-
-    # @property
-    # def count_types(self):
-    #     articles = self.article_set.all()
-    #     total = [article for article in articles]
 
     @staticmethod
     def get_by_id(user_id):

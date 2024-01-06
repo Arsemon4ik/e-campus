@@ -7,8 +7,8 @@ class UserForm(UserCreationForm):
         model = User
         fields = ['username', 'photo', 'email', 'password1', 'password2']
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
-            'email': forms.TextInput(attrs={'placeholder': 'Email'}),
+            'username': forms.TextInput(attrs={'placeholder': 'Username','autofocus': 'autofocus'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
             'password1': forms.TextInput(attrs={'placeholder': 'Password'}),
             'password2': forms.TextInput(attrs={'placeholder': 'Confirm password'}),
         }
@@ -20,8 +20,6 @@ class UserForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    # password1 = forms.CharField(required=False, widget=forms.PasswordInput)
-    # password2 = forms.CharField(required=False, widget=forms.PasswordInput)
     password = forms.CharField(required=False, widget=forms.PasswordInput)
 
     class Meta:
@@ -32,10 +30,3 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control form-control-lg'
-
-    # def save(self, commit=True):
-    #     user = super(UserProfileForm, self).save(commit=False)
-    #     user.(self.request.user.password)
-    #     if commit:
-    #         user.save()
-    #     return user

@@ -5,7 +5,7 @@
 {% block content %}
 
     {% include 'navbar.html' %}
-    <div class="mx-5 w-75">
+    <div class="mx-5 w-75" style="font-size: 20px">
         <div class="d-flex align-items-center">
             <h2 class="py-3 mr-4">Профіль {{ user.username }}</h2>
             <img src="{{ user.photo.url }}" alt="Аватар" style="height: 50px; border-radius: 50%">

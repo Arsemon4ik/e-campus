@@ -42,8 +42,14 @@ INSTALLED_APPS = [
     'campus_app',
 
     'django_filters',
-    'django_bpmn'
+    'django_extensions',
+    'flake8'
 ]
+
+GRAPH_MODELS = {
+    'app_labels': ["authentication", "campus_app"],
+    'graph_models': True,
+}
 
 AUTH_USER_MODEL = 'authentication.User'
 

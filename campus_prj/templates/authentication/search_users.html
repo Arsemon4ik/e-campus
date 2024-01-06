@@ -43,8 +43,8 @@
             <h2 class="text-center py-4">Нікого не знайдено!</h2>
         {% endif %}
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
-                <strong>Message: </strong> {{ message }}
+            <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show bg-warning" role="alert">
+                <strong>Помилка: </strong> {{ message|safe }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -10,6 +10,7 @@ from campus_app.models import Article
 
 
 def register_page(request):
+    """ Register function returns register page """
     form = UserForm()
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
@@ -18,11 +19,12 @@ def register_page(request):
             login(request, user)
             return redirect('main')
         else:
-            messages.error(request, f'Виникла помилка: {form.errors} під час реєстрації')
+            messages.error(request, f'Виникла помилка під час реєстрації\n{form.errors}')
     return render(request, 'authentication/register.html', {'form': form})
 
 
 def login_page(request):
+    """ Login function returns login page """
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -31,12 +33,13 @@ def login_page(request):
             login(request, user)
             return redirect('main')
         else:
-            messages.error(request, 'Виникла помилка під час авторизації, спробуйте ще раз')
+            messages.error(request, 'Виникла помилка під час авторизації')
     return render(request, 'authentication/login.html', {})
 
 
 @login_required
 def my_profile_page(request):
+    """ My profile function returns user profile page """
     user = request.user
 
     form = UserProfileForm(instance=user)
@@ -44,7 +47,7 @@ def my_profile_page(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             user.update(bio=form.cleaned_data["bio"])
-            return redirect('profile')
+            return redirect('my_profile')
         else:
             messages.error(request, f'Виникла помилка {form.errors} під час редагування, спробуйте ще раз')
     return render(request, 'authentication/my_profile.html', {'form': form})
@@ -68,5 +71,6 @@ def search_users_page(request):
 
 @login_required
 def logout_page(request):
+    """ Logout function returns logout user """
     logout(request)
     return redirect('main')
