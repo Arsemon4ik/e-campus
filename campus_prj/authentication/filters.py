@@ -7,4 +7,12 @@ class UserFilter(django_filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'campus_type']
+
+    def __init__(self, *args, **kwargs):
+        super(UserFilter, self).__init__(*args, **kwargs)
+        self.filters['username'].label = "Ім'я користувача"
+        self.filters['email'].label = "Ел. Пошта"
+        self.filters['campus_type'].label = "Статус"
+        for key in self.filters:
+            self.filters[key].field.widget.attrs.update({'class': 'form-control'})

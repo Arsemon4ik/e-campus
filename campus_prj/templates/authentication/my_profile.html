@@ -10,6 +10,7 @@
             <h2 class="py-3 mr-4">Мій профіль</h2>
             <img src="{{ request.user.photo.url }}" alt="Аватар" style="height: 50px; border-radius: 50%">
         </div>
+        <h4 class="">Статус: {{ request.user.get_campus_type_display }}</h4>
 
         <form class="mt-4 w-75" action="" method="post" enctype="multipart/form-data" style="font-size: 20px">
             {% csrf_token %}

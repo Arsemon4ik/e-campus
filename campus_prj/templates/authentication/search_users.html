@@ -5,17 +5,17 @@
 {% block content %}
 
     {% include 'navbar.html' %}
-    <div class="mx-5 w-75">
+    <div class="mx-5">
         <div class="d-flex align-items-center">
-            <h2 class="py-3 mr-4">Пошук користувачів</h2>
+            <h2 class="py-3">Пошук користувачів</h2>
         </div>
-        <form method="get">
+        <form method="get" class="d-lg-flex justify-content-lg-between align-items-center w-75">
             {{ filter.form.as_p }}
-            <button type="submit" class="btn btn-lg btn-dark">Шукати</button>
+            <button type="submit" class="btn btn-lg btn-dark h-25">Шукати</button>
         </form>
         {% if filter.qs %}
             <div class="mt-4">
-                <table class="table table-bordered">
+                <table class="table table-responsive-sm table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
